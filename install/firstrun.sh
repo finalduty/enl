@@ -58,7 +58,8 @@ setHostname() {
  echo
  case $yn in
   [yY]*)
-	echo -e "127.0.1.1\t$host.$domain $host" 2>/dev/null >> /etc/hosts
+        sed -i '/127.0.1.1/'d /etc/hosts
+        echo -e "127.0.1.1\t$host.$domain $host" 2>/dev/null >> /etc/hosts
 	echo "$host.$domain" 2>/dev/null > /etc/hostname
 	;;
   [qQ]*) 	echo "Cancelling Setup"; exit ;;
