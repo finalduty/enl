@@ -24,9 +24,9 @@ mount -av
 
 ## Configure Yum
 sed -i '/proxy=/'d /etc/yum.conf
-sed -i '/\[main\]/a proxy=http://prx-a01.finalduty.me:3128' /etc/yum.conf
+#sed -i '/\[main\]/a proxy=http://prx-a01.finalduty.me:3128' /etc/yum.conf
 sed -i '/^mirrorlist=/ s/^/#/' /etc/yum.repos.d/CentOS-Base.repo
-sed -i '/baseurl=/ s/.*/baseurl=http:\/\/mirror.webhost.co.nz\/centos\/\$releasever\/os\/\$basearch\//' /etc/yum.repos.d/CentOS-Base.repo
+sed -i '/.?baseurl=/ s/.*/baseurl=http:\/\/mirror.webhost.co.nz\/centos\/\$releasever\/os\/\$basearch\//' /etc/yum.repos.d/CentOS-Base.repo
 
 ## Configure SSH
 sed -i 's/.*PermitRootLogin.*/PermitRootLogin without-password/' /etc/ssh/sshd_config
