@@ -1,12 +1,21 @@
- .
- 86400      ; 1 day
+$ORIGIN .
+$TTL 86400      ; 1 day
 finalduty.me            IN SOA  finalduty.me. root.finalduty.me. (
-                                2          ; serial
+                                56         ; serial
                                 604800     ; refresh (1 week)
                                 86400      ; retry (1 day)
                                 2419200    ; expire (4 weeks)
                                 86400      ; minimum (1 day)
                                 )
                         NS      ns1.finalduty.me.
- finalduty.me.
+$ORIGIN finalduty.me.
+$TTL 300        ; 5 minutes
+debian                  A       172.20.2.146
+                        TXT     "0063ea366ca0bdc18aceb3b18a0fa87727"
+$TTL 86400      ; 1 day
 ns1                     A       172.20.2.251
+prx                     A       172.20.1.211
+prx-a01                 A       172.20.1.211
+srv                     A       172.20.1.201
+srv-a01                 A       172.20.1.201
+
