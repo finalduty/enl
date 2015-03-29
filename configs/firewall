@@ -1,4 +1,4 @@
-### finalduty@github.com [rev: 8fe4556]
+### finalduty@github.com [rev: 8fe46d1]
 #!/bin/bash
 I="iptables -A INPUT"
 O="iptables -A OUTPUT"
