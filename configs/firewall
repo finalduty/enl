@@ -6,9 +6,8 @@ F="iptables -A FORWARD"
 MODULES="ip_conntrack_ftp"
 
 ## Load additional necessary modules
-for module in $MODULES;
-do
-        /sbin/modprobe $module
+for module in $MODULES; do
+ /sbin/modprobe $module
 done
 
 ## Clear Old Rules
@@ -36,15 +35,15 @@ $I -m state --state ESTABLISHED,RELATED -j ACCEPT
 ## Public Services
 #$I -p tcp --dport 80 -j ACCEPT					# HTTP
 #$I -p tcp --dport 443 -j ACCEPT				# HTTPS
-#$I -p tcp --dport 25 -j ACCEPT					# SMTP
+#$I -p tcp --dport 8443 -j ACCEPT				# Plesk control panel
 #$I -p tcp --dport 21 -j ACCEPT					# FTP
 #$I -p tcp --dport 9500:9550 -j ACCEPT				# FTP data	
-#$I -p tcp --dport 8443 -j ACCEPT				# Plesk control panel
+#$I -p tcp --dport 25 -j ACCEPT					# SMTP
 #$I -p tcp --dport 110 -j ACCEPT				# POP
-#$I -p tcp --dport 995 -j ACCEPT				# POPS
 #$I -p tcp --dport 143 -j ACCEPT				# IMAP
-#$I -p tcp --dport 993 -j ACCEPT				# IMAPS
 #$I -p tcp --dport 465 -j ACCEPT				# SMTPS
+#$I -p tcp --dport 995 -j ACCEPT				# POPS
+#$I -p tcp --dport 993 -j ACCEPT				# IMAPS
 
 ## Outbound Services
 $O -j ACCEPT
@@ -54,4 +53,4 @@ $I -j REJECT
 $O -j REJECT
 $F -j REJECT
 
-[ `grep 'Red Hat' /proc/version` ] && iptables-save /etc/sysconfig/iptables
+[[ `grep 'Red Hat' /proc/version` ]] && iptables-save > /etc/sysconfig/iptables
