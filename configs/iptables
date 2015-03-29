@@ -54,3 +54,4 @@ $I -j REJECT
 $O -j REJECT
 $F -j REJECT
 
+[ `grep 'Red Hat' <(cat /proc/version)` ] && iptables-save /etc/sysconfig/iptables
