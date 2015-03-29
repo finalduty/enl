@@ -1,0 +1,56 @@
+### finalduty@github.com [rev: 8fe4556]
+#!/bin/bash
+I="iptables -A INPUT"
+O="iptables -A OUTPUT"
+F="iptables -A FORWARD"
+MODULES="ip_conntrack_ftp"
+
+## Load additional necessary modules
+for module in $MODULES;
+do
+        /sbin/modprobe $module
+done
+
+## Clear Old Rules
+iptables -F; iptables -X
+ip6tables -F; ip6tables -X
+ip6tables -A INPUT -j REJECT
+ip6tables -A OUTPUT -j REJECT
+ip6tables -A FORWARD -j REJECT
+
+## Allow Pings
+$I -i lo -j ACCEPT
+$I -p icmp --fragment -j DROP
+$I -p icmp --icmp-type echo-request -j ACCEPT
+$I -p icmp --icmp-type echo-reply -j ACCEPT
+$I -p icmp --icmp-type destination-unreachable -j ACCEPT
+$I -p icmp --icmp-type time-exceeded -j ACCEPT
+$I -p icmp -j DROP
+
+## Private Access
+$I -m state --state ESTABLISHED,RELATED -j ACCEPT
+[ `grep srv <(hostname)` ] && $I -p tcp --dport 22 -j ACCEPT	# SSH - Any
+[ `grep srv <(hostname)` ] || $I -s 172.20.1.201 -p tcp --dport 22 -j ACCEPT	# SSH - srv-a01
+[ `grep srv <(hostname)` ] || $I -s 172.20.1.202 -p tcp --dport 22 -j ACCEPT	# SSH - srv-a02
+
+## Public Services
+#$I -p tcp --dport 80 -j ACCEPT					# HTTP
+#$I -p tcp --dport 443 -j ACCEPT				# HTTPS
+#$I -p tcp --dport 25 -j ACCEPT					# SMTP
+#$I -p tcp --dport 21 -j ACCEPT					# FTP
+#$I -p tcp --dport 9500:9550 -j ACCEPT				# FTP data	
+#$I -p tcp --dport 8443 -j ACCEPT				# Plesk control panel
+#$I -p tcp --dport 110 -j ACCEPT				# POP
+#$I -p tcp --dport 995 -j ACCEPT				# POPS
+#$I -p tcp --dport 143 -j ACCEPT				# IMAP
+#$I -p tcp --dport 993 -j ACCEPT				# IMAPS
+#$I -p tcp --dport 465 -j ACCEPT				# SMTPS
+
+## Outbound Services
+$O -j ACCEPT
+
+## Deny All Else
+$I -j REJECT
+$O -j REJECT
+$F -j REJECT
+
