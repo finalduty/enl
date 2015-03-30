@@ -1,13 +1,16 @@
-### finalduty@github.com [rev: 8fe916e]
+### finalduty@github.com [rev: 8fe9175]
 ## Clone and Deploy VMWare Machine
-srcvm='nfs-a01.finalduty.me'
-dstvm='_template-centos'
 
+## Set Source Template and Destination Name
+srcvm='_template-centos'
+dstvm='nfs-a01.finalduty.me'
 srcpath='/vmfs/volumes/datastore0'
 dstpath='/vmfs/volumes/datastore0'
+
 src="$srcpath/$srcvm/"
 dst="$dstpath/$dstvm"
 
+## Copy Files and Rename for New Guest
 startTime=`date +%s`
  cp -a $src $dst
  vmkfstools -E $dst/$srcvm.vmdk $dst/$dstvm.vmdk
@@ -20,5 +23,9 @@ startTime=`date +%s`
  vim-cmd vmsvc/power.getstate $vmid | grep Powered
 endTime=`date +%s`
 
-echo "Start    : `date +%c -d @\$startTime`"; echo "Finish   : `date +%c -d @$endTime`"; echo "Duration : $(date +%T -d `echo @$(( $endTime - $startTime -43200 ))`)"
+## Print Time to Deploy
+echo
+echo "Start    : `date +%c -d @\$startTime`"
+echo "Finish   : `date +%c -d @$endTime`"
+echo "Duration : $(date +%T -d `echo @$(( $endTime - $startTime -43200 ))`)"
 
