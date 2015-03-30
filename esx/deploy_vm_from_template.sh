@@ -2,8 +2,8 @@
 ## Clone and Deploy VMWare Machine
 
 ## Set Source Template and Destination Name
-srcvm='_template-centos'
 dstvm='nfs-a01.finalduty.me'
+srcvm='_template-centos'
 srcpath='/vmfs/volumes/datastore0'
 dstpath='/vmfs/volumes/datastore0'
 
