@@ -14,12 +14,13 @@ yum install -y vim ntp epel-release net-tools psmisc rsync
  sed -i 's/.*PermitRootLogin.*/PermitRootLogin without-password/' /etc/ssh/sshd_config
 
 ## Download Configs
+mkdir ~/.ssh
 curl -L https://raw.github.com/finalduty/git/master/configs/.bashrc > ~/.bashrc
 curl -L https://raw.github.com/finalduty/git/master/configs/.vimrc > ~/.vimrc
-mkdir ~/.ssh
 curl -L https://raw.github.com/finalduty/enl/master/configs/authorized_keys > ~/.ssh/authorized_keys
+for i in .bashrc .vimrc .ssh; do cp -av ~/$i /etc/skel; done
 
 ## Setup User
 user=andy
-useradd -m $andy
-for i in .bashrc .vimrc .ssh; do cp -av ~/$i /home/$user; chown andy.andy -R $i; done
+useradd -m $user
+echo "$user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$user
