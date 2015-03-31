@@ -8,10 +8,10 @@ srcpath='/vmfs/volumes/datastore0'
 dstpath='/vmfs/volumes/datastore0'
 
 src="$srcpath/$srcvm/"
-dst="$dstpath/$dstvm"
+dst="$dstpath/$dstvm/"
 
 ## Copy Files and Rename for New Guest
-cp -a $src $dst
+cp -a $src $dst && rm $dst/vmware*
 vmkfstools -E $dst/$srcvm.vmdk $dst/$dstvm.vmdk
 for i in `ls $dst | grep $srcvm`; do mv $dst/$i $dst/`echo $i | sed "s|$srcvm|$dstvm|"`; done
 sed -i "s|$srcvm|$dstvm|"g $dst/$dstvm.vmx
