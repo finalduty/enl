@@ -47,8 +47,8 @@ setHostname() {
  echo
  case $yn in
   [yY]*)
-	echo -e "127.0.1.1\t$host.$domain $host" 2>/dev/null #>> /etc/hosts
-	echo "$host.$domain" 2>/dev/null #> /etc/hostname
+	echo -e "127.0.1.1\t$host.$domain $host" 2>/dev/null >> /etc/hosts
+	echo "$host.$domain" 2>/dev/null > /etc/hostname
 	;;
   [qQ]*) 	echo "Cancelling Setup"; exit ;;
   *)	eval exitcode=1; echo; echo "# Starting Over" ;;
@@ -107,7 +107,7 @@ EOF
 }
 
 setStaticIP() {
-cat << EOF # >> /etc/sysconfig/network-scripts/ifcfg-ens192
+cat << EOF  >> /etc/sysconfig/network-scripts/ifcfg-ens192
  IPADDR=$ip
  NETMASK=$netmask
  GATEWAY=$gateway
@@ -120,10 +120,10 @@ EOF
 }
 
 setDynamicIP() {
-# file="/etc/sysconfig/network-scripts/ifcfg-ens192"
-# sed -i '/BOOTPROTO/ s/=.*$/=dhcp/' $file
-# sed -i -e '/DNS/d' -e '/NETMASK/d' -e '/GATEWAY/d' -e '/IPADDR/d' $file
-# systemctl restart network
+ file="/etc/sysconfig/network-scripts/ifcfg-ens192"
+ sed -i '/BOOTPROTO/ s/=.*$/=dhcp/' $file
+ sed -i -e '/DNS/d' -e '/NETMASK/d' -e '/GATEWAY/d' -e '/IPADDR/d' $file
+ systemctl restart network
  echo "DHCP has been configured"
  break 2 
 }
