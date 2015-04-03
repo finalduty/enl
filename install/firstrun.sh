@@ -153,9 +153,15 @@ runInstall() {
  #bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/auto.sh)
 }
 
+setupFirewall() {
+ curl -L https://raw.githubusercontent.com/finalduty/enl/master/configs/firewall > /etc/sysconfig/firewall
+ sh /etc/sysconfig/firewall
+}
+
 
 ## __Main__
 checkSafeToRun;
+setupFirewall;
 inputHostname;
 inputIP; 
 runBaseConfig;
