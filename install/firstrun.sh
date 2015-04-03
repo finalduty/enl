@@ -1,4 +1,4 @@
-### finalduty@github.com [rev: 8feba9f]
+### finalduty@github.com [rev: 8ff091c]
 ## First Run script to assign identity
 #!/bin/bash
 
