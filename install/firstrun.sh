@@ -145,12 +145,12 @@ setDynamicIP() {
 
 runBaseConfig() {
  echo;  echo "runBaseConfig()"
- bash <(curl -L https://raw.github.com/finalduty/enl/master/install/base.sh)
+ bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/base.sh)
 }
 
 runInstall() {
  echo; echo "runInstall()"
- #bash <(curl -L https://raw.github.com/finalduty/enl/master/install/auto.sh)
+ #bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/auto.sh)
 }
 
 
