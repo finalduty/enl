@@ -24,6 +24,17 @@ err() {
  esac
 }	       
 
+checkSafeToRun() {
+ while [ `hostname | grep localhost -c` -eq 0 ] ; do
+  read -p `grep --color=always -e '^.*$' <(echo "Hostname has already been conigured - Continue? [y/N]")` yn
+  echo
+  case $yn in
+   [yY]*) break ;;
+   [nN]*) exit ;;
+  esac
+ done
+}
+
 inputHostname() {
  while : ; do
   echo
@@ -107,15 +118,19 @@ EOF
 }
 
 setStaticIP() {
-cat << EOF  >> /etc/sysconfig/network-scripts/ifcfg-ens192
- IPADDR=$ip
- NETMASK=$netmask
- GATEWAY=$gateway
- DNS1=8.8.8.8
- DNS2=8.8.4.4
+file="/etc/sysconfig/network-scripts/ifcfg-ens192"
+cat << EOF  >> $file
+IPADDR=$ip
+NETMASK=$netmask
+GATEWAY=$gateway
+DNS1=8.8.8.8
+DNS2=8.8.4.4
 
 EOF
- echo "Static IP Written"
+hwaddr=`ip a | grep -m1 link/ether | awk '{print $2}'`
+sed -i '/BOOTPROTO/ s/=.*$/=none/' $file
+sed -i "/HWADDR/ s/=.*$/=\"$hwaddr\"/" $file
+echo "Static IP Written"
  break 3
 }
 
@@ -130,7 +145,7 @@ setDynamicIP() {
 
 runBaseConfig() {
  echo;  echo "runBaseConfig()"
- #bash <(curl -L https://raw.github.com/finalduty/enl/master/install/base)
+ bash <(curl -L https://raw.github.com/finalduty/enl/master/install/base.sh)
 }
 
 runInstall() {
@@ -140,6 +155,7 @@ runInstall() {
 
 
 ## __Main__
+checkSafeToRun;
 inputHostname;
 inputIP; 
 runBaseConfig;
