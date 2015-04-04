@@ -1,0 +1,16 @@
+### finalduty@github.com [rev: 8ff2f07]
+default menu.c32
+prompt 0
+timeout 30
+MENU TITLE 	PXE Boot
+
+LABEL 		centos7_x64
+MENU LABEL 	CentOS 7
+KERNEL 		/www/mirror/centos-7/images/pxeboot/vmlinuz
+APPEND 		initrd=/www/mirror/centos-7/images/pxeboot/initrd.img ks=http://tftp.finalduty.me/ks/centos-7-ks.cfg
+
+LABEL 		atomic-21
+MENU LABEL 	Fedora 21 (Atomic)
+KERNEL 		/www/mirror/atomic/images/pxeboot/vmlinuz
+APPEND 		initrd=/www/mirror/atomic/images/pxeboot/initrd.img ks=http://tftp.finalduty.me/ks/atomic-21-ks.cfg
+
