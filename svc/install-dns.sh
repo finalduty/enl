@@ -18,3 +18,6 @@ mkdir /var/named/zones
 curl -L https://raw.githubusercontent.com/finalduty/enl/master/svc/named.conf > /etc/named.conf
 curl -L https://raw.githubusercontent.com/finalduty/enl/master/svc/172.20.2 > /var/named/zones/172.20.2
 curl -L https://raw.githubusercontent.com/finalduty/enl/master/svc/finalduty.me > /var/named/zones/finalduty.me
+
+systemctl enable named
+systemctl start named
