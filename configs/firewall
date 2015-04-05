@@ -13,9 +13,9 @@ done
 ## Clear Old Rules
 iptables -F; iptables -X
 ip6tables -F; ip6tables -X
-ip6tables -A INPUT -j REJECT
-ip6tables -A OUTPUT -j REJECT
-ip6tables -A FORWARD -j REJECT
+ip6tables -I INPUT -j REJECT
+ip6tables -I OUTPUT -j REJECT
+ip6tables -I FORWARD -j REJECT
 
 ## Allow Pings
 $I -i lo -j ACCEPT
@@ -28,22 +28,30 @@ $I -p icmp -j DROP
 
 ## Private Access
 $I -m state --state ESTABLISHED,RELATED -j ACCEPT
-[ `grep srv <(hostname)` ] && $I -p tcp --dport 22 -j ACCEPT	# SSH - Any
-[ `grep srv <(hostname)` ] || $I -s 172.20.1.201 -p tcp --dport 22 -j ACCEPT	# SSH - srv-a01
-[ `grep srv <(hostname)` ] || $I -s 172.20.1.202 -p tcp --dport 22 -j ACCEPT	# SSH - srv-a02
+[ `hostname | grep srv` ] && $I -p tcp --dport 22 -j ACCEPT	# SSH - Any
+[ `hostname | grep srv` ] || $I -s 172.20.1.201 -p tcp --dport 22 -j ACCEPT	# SSH - srv-a01
+[ `hostname | grep srv` ] || $I -s 172.20.1.202 -p tcp --dport 22 -j ACCEPT	# SSH - srv-a02
 
-## Public Services
-#$I -p tcp --dport 80 -j ACCEPT					# HTTP
-#$I -p tcp --dport 443 -j ACCEPT				# HTTPS
-#$I -p tcp --dport 8443 -j ACCEPT				# Plesk control panel
-#$I -p tcp --dport 21 -j ACCEPT					# FTP
-#$I -p tcp --dport 9500:9550 -j ACCEPT				# FTP data	
-#$I -p tcp --dport 25 -j ACCEPT					# SMTP
-#$I -p tcp --dport 110 -j ACCEPT				# POP
-#$I -p tcp --dport 143 -j ACCEPT				# IMAP
-#$I -p tcp --dport 465 -j ACCEPT				# SMTPS
-#$I -p tcp --dport 995 -j ACCEPT				# POPS
-#$I -p tcp --dport 993 -j ACCEPT				# IMAPS
+## Services
+#$I -p tcp --dport 647 -j ACCEPT 		# DHCP-FAILOVER
+#$I -p tcp --dport 67 -j ACCEPT 		# DHCP-TCP
+#$I -p udp --dport 67 -j ACCEPT 		# DHCP-UDP
+#$I -p tcp --dport 53 -j ACCEPT 		# DNS
+#$I -p tcp --dport 21 -j ACCEPT			# FTP
+#$I -p tcp --dport 9500:9550 -j ACCEPT		# FTP-DATA	
+#$I -p tcp --dport 80 -j ACCEPT			# HTTP
+#$I -p tcp --dport 443 -j ACCEPT		# HTTPS
+#$I -p tcp --dport 3306 -j ACCEPT 		# MYSQL
+#$I -p tcp --dport 2049 -j ACCEPT 		# NFS
+#$I -p tcp --dport 8443 -j ACCEPT		# PLESK
+#$I -p tcp --dport 3128 -j ACCEPT 		# SQUID
+
+#$I -p tcp --dport 25 -j ACCEPT			# SMTP
+#$I -p tcp --dport 110 -j ACCEPT		# POP
+#$I -p tcp --dport 143 -j ACCEPT		# IMAP
+#$I -p tcp --dport 465 -j ACCEPT		# SMTPS
+#$I -p tcp --dport 995 -j ACCEPT		# POPS
+#$I -p tcp --dport 993 -j ACCEPT		# IMAPS
 
 ## Outbound Services
 $O -j ACCEPT
