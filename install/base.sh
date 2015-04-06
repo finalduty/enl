@@ -10,8 +10,8 @@ mytype=`hostname | sed 's/-.*//'`
 yum clean all
 yum update -y
 yum update -y kernel
-yum remove -y wget
-yum install -y vim ntp epel-release net-tools psmisc rsync tcpdump
+yum remove -y wget ntp
+yum install -y vim epel-release net-tools psmisc rsync tcpdump
 
 ## Disable IPv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1" > /etc/sysctl.d/disableipv6.conf
