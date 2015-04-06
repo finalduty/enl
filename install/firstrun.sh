@@ -118,8 +118,8 @@ EOF
 }
 
 setStaticIP() {
-file="/etc/sysconfig/network-scripts/ifcfg-ens192"
-cat << EOF  >> $file
+  file="/etc/sysconfig/network-scripts/ifcfg-ens192"
+  cat << EOF  >> $file
 IPADDR=$ip
 NETMASK=$netmask
 GATEWAY=$gateway
@@ -127,35 +127,38 @@ DNS1=8.8.8.8
 DNS2=8.8.4.4
 
 EOF
-hwaddr=`ip a | grep -m1 link/ether | awk '{print $2}'`
-sed -i '/BOOTPROTO/ s/=.*$/=none/' $file
-sed -i "/HWADDR/ s/=.*$/=\"$hwaddr\"/" $file
-echo "Static IP Written"
- break 3
+  hwaddr=`ip a | grep -m1 link/ether | awk '{print $2}'`
+  sed -i '/BOOTPROTO/ s/=.*$/=none/' $file
+  sed -i -e '/^UUID/ s/^/#/' $file
+  sed -i "/HWADDR/ s/=.*$/=\"$hwaddr\"/" $file
+  echo "Static IP Written"
+  break 3
 }
 
 setDynamicIP() {
- file="/etc/sysconfig/network-scripts/ifcfg-ens192"
- sed -i '/BOOTPROTO/ s/=.*$/=dhcp/' $file
- sed -i -e '/DNS/d' -e '/NETMASK/d' -e '/GATEWAY/d' -e '/IPADDR/d' $file
- systemctl restart network
- echo "DHCP has been configured"
- break 2 
+  file="/etc/sysconfig/network-scripts/ifcfg-ens192"
+  hwaddr=`ip a | grep -m1 link/ether | awk '{print $2}'`
+  sed -i '/BOOTPROTO/ s/=.*$/=dhcp/' $file
+  sed -i -e '/DNS/d' -e '/NETMASK/d' -e '/GATEWAY/d' -e '/IPADDR/d' $file
+  sed -i -e '/^UUID/ s/^/#/' $file
+  sed -i "/HWADDR/ s/=.*$/=\"$hwaddr\"/" $file
+  
+  systemctl restart network
+  echo "DHCP has been configured"
+  break 2 
 }
 
 runBaseConfig() {
- echo;  echo "runBaseConfig()"
- bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/base.sh)
+  bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/base.sh)
 }
 
 runInstall() {
- echo; echo "runInstall()"
- #bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/auto.sh)
+#  bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/auto.sh)
 }
 
 setupFirewall() {
- curl -L https://raw.githubusercontent.com/finalduty/enl/master/configs/firewall > /etc/sysconfig/firewall
- sh /etc/sysconfig/firewall
+  curl -L https://raw.githubusercontent.com/finalduty/enl/master/configs/firewall > /etc/sysconfig/firewall
+  sh /etc/sysconfig/firewall
 }
 
 
