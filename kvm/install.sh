@@ -4,7 +4,7 @@
 
 yum update -y
 yum group install -y "Virtualization Host"
-yum install virt-top virt-install httpd
+yum install -y virt-top virt-install httpd
 
 systemctl enable libvirtd
 systemctl enable chronyd
