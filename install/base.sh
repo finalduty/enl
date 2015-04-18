@@ -1,4 +1,4 @@
-### finalduty@github.com [rev: 8ff580a]
+### finalduty@github.com [rev: 90177ca]
 ## Base setup used to prep templates or customise from scrath
 #!/bin/bash
 
@@ -35,7 +35,7 @@ sed -i '/UseDNS/ s/.*/UseDNS no/' /etc/ssh/sshd_config
 mkdir -p /etc/skel/.ssh
 curl -L https://raw.githubusercontent.com/finalduty/git/master/configs/.bashrc > /etc/skel/.bashrc
 curl -L https://raw.githubusercontent.com/finalduty/git/master/configs/.vimrc > /etc/skel/.vimrc
-curl -L https://raw.githubusercontent.com/finalduty/enl/master/configs/authorized_keys > /etc/skel/.ssh/authorized_keys
+curl -L https://raw.githubusercontent.com/finalduty/git/master/configs/authorized_keys > /etc/skel/.ssh/authorized_keys
 cp -R /etc/skel /root
 
 ## Setup User
