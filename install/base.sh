@@ -5,13 +5,14 @@
 ## Variables
 myip=`ip a | grep "inet 172" | sed -e 's/\/.*//' -e 's/.* //'`
 mytype=`hostname | sed 's/-.*//'`
+packages="vim epel-release net-tools psmisc rsync tcpdump bind-utils telnet bash-completion"
 
 ## Install and Update
 yum clean all
 yum update -y
 yum update -y kernel
 yum remove -y wget ntp
-yum install -y vim epel-release net-tools psmisc rsync tcpdump
+yum install -y $packages
 
 ## Disable IPv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1" > /etc/sysctl.d/disableipv6.conf
