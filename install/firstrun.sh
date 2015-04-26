@@ -104,8 +104,8 @@ testStaticIP() {
   IPADDR=$ip
   NETMASK=$netmask
   GATEWAY=$gateway
-  DNS1=8.8.8.8
-  DNS2=8.8.4.4
+  DNS1=172.20.2.251
+  DNS2=172.20.2.252
 
 EOF
  [ $test != "*" ] && echo -e "ERROR -`echo $test | sed -e 's/\*//' -e 's/|/ /g'` Invalid\n" && return 1
@@ -124,8 +124,8 @@ setStaticIP() {
 IPADDR=$ip
 NETMASK=$netmask
 GATEWAY=$gateway
-DNS1=8.8.8.8
-DNS2=8.8.4.4
+DNS1=172.20.2.251
+DNS2=172.20.2.252
 
 EOF
   hwaddr=`ip a | grep -m1 link/ether | awk '{print $2}'`
@@ -153,9 +153,9 @@ runBaseConfig() {
   bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/base.sh)
 }
 
-#runInstall() {
-#  bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/auto.sh)
-#}
+runAutoinstall() {
+  bash <(curl -L https://raw.githubusercontent.com/finalduty/enl/master/install/auto.sh)
+}
 
 setupFirewall() {
   curl -L https://raw.githubusercontent.com/finalduty/enl/master/configs/firewall > /etc/sysconfig/firewall
@@ -167,6 +167,6 @@ setupFirewall() {
 checkSafeToRun;
 setupFirewall;
 inputHostname;
-inputIP; 
+#inputIP; 
 runBaseConfig;
-runInstall;
+#runAutoinstall;
