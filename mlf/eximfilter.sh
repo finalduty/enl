@@ -4,7 +4,7 @@
 ##### Notes #####
 ## http://commons.oreilly.com/wiki/index.php/SpamAssassin/Integrating_SpamAssassin_with_Exim
 ## http://www.timj.co.uk/uploads/Exim-SpamAndVirusScanning.pdf
-## 
+## Pyzor - http://pyzor.readthedocs.org/en/release-1-0-0/client.html 
 
 ##### Script #####
 
@@ -54,7 +54,12 @@ spamassassin_setup() {
   
   systemctl enable spamassassin
   systemctl start spamassassin
-  sa-update
+## << Working from Here >>
+curl http://yerp.org/rules/GPG.KEY > /tmp/GPG.KEY
+  sa-update --import /tmp/GPG.KEY
+  sed -i '/OPTIONS/ s/.*/OPTIONS=-v --channel updates.spamassassin.org --channel sought.rules.yerp.org --gpgkey 6C6191E3/' /etc/sysconfig/sa-update
+  sa_update 
+## << Working to Here >>
 }
 
 clamav_install() {
